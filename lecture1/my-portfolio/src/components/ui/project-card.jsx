@@ -1,8 +1,7 @@
-import { Card, CardContent } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
 
 /**
- * ProjectCard 컴포넌트
+ * ProjectCard 컴포넌트 - 다크 Glassmorphism 프로젝트 카드
  *
  * Props:
  * @param {object} project - 프로젝트 데이터 객체 [Required]
@@ -19,30 +18,29 @@ function ProjectCard({ project }) {
   const { title, description, tech_stack, detail_url, thumbnail_url } = project;
 
   return (
-    <Card className="group border border-blue-100 bg-white overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-blue-300 hover:-translate-y-1">
+    <div className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:shadow-2xl hover:shadow-teal-500/5 hover:-translate-y-1">
       {/* 썸네일 이미지 */}
-      <div className="relative aspect-video overflow-hidden bg-blue-50">
+      <div className="relative aspect-video overflow-hidden bg-[#0f1729]">
         <img
           src={thumbnail_url}
           alt={`${title} 썸네일`}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-cover opacity-80 transition-all duration-300 group-hover:scale-105 group-hover:opacity-100"
           loading="lazy"
         />
-        {/* 호버 오버레이 */}
-        <div className="absolute inset-0 bg-blue-900/0 transition-all duration-300 group-hover:bg-blue-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-transparent to-transparent" />
       </div>
 
-      <CardContent className="p-4">
+      <div className="p-5">
         {/* 제목 및 링크 */}
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-lg text-blue-900 line-clamp-1">
+          <h3 className="font-semibold text-lg text-white line-clamp-1">
             {title}
           </h3>
           <a
             href={detail_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-all hover:bg-blue-600 hover:text-white"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-400 transition-all hover:border-teal-500/50 hover:bg-teal-500/20 hover:text-teal-400 hover:shadow-lg hover:shadow-teal-500/10"
             aria-label={`${title} 사이트 열기`}
           >
             <ExternalLink className="h-4 w-4" />
@@ -50,7 +48,7 @@ function ProjectCard({ project }) {
         </div>
 
         {/* 설명 */}
-        <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+        <p className="mt-2 text-sm text-gray-400 line-clamp-2">
           {description}
         </p>
 
@@ -59,14 +57,14 @@ function ProjectCard({ project }) {
           {tech_stack.map((tech) => (
             <span
               key={tech}
-              className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700"
+              className="inline-flex items-center rounded-full border border-white/5 bg-white/5 px-2.5 py-0.5 text-xs font-medium text-teal-300"
             >
               {tech}
             </span>
           ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 

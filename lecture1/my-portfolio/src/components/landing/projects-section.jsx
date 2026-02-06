@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import ProjectCard from '@/components/ui/project-card';
 import { supabase } from '@/lib/supabase';
 
@@ -37,50 +37,61 @@ function ProjectsSection() {
   };
 
   return (
-    <section id="projects" className="py-12 md:py-16">
-      <div className="flex flex-col gap-8">
-        {/* 섹션 제목 */}
-        <div className="text-center">
-          <h2 className="text-2xl font-bold tracking-tight md:text-3xl text-blue-900">
-            Projects
-          </h2>
-          <p className="mt-2 text-muted-foreground">
-            제가 작업한 프로젝트들입니다
-          </p>
+    <section id="projects" className="py-16 md:py-24">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-10 text-center"
+      >
+        <h2 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
+          Projects
+        </h2>
+        <p className="mt-2 text-gray-500">
+          제가 작업한 프로젝트들입니다
+        </p>
+      </motion.div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <p className="text-gray-500">불러오는 중...</p>
         </div>
+      ) : projects.length === 0 ? (
+        <div className="flex justify-center py-12">
+          <p className="text-gray-500">등록된 프로젝트가 없습니다.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </div>
+      )}
 
-        {/* 프로젝트 그리드 */}
-        {isLoading ? (
-          <div className="flex justify-center py-12">
-            <p className="text-muted-foreground">불러오는 중...</p>
-          </div>
-        ) : projects.length === 0 ? (
-          <div className="flex justify-center py-12">
-            <p className="text-muted-foreground">등록된 프로젝트가 없습니다.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        )}
-
-        {/* 더 보기 버튼 */}
-        {projects.length > 0 && (
-          <div className="flex justify-center">
-            <Link to="/projects">
-              <Button
-                variant="outline"
-                className="border-blue-200 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
-              >
-                모든 프로젝트 보기
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        )}
-      </div>
+      {projects.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-8 flex justify-center"
+        >
+          <Link
+            to="/projects"
+            className="group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-gray-300 transition-all duration-300 hover:border-teal-500/30 hover:bg-teal-500/10 hover:text-teal-400"
+          >
+            모든 프로젝트 보기
+            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
+      )}
     </section>
   );
 }
